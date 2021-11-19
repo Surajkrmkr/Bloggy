@@ -18,7 +18,7 @@ class _SearchPageState extends State<SearchPage> {
   final Future<QuerySnapshot<Map<String, dynamic>>> blog =
       FirebaseFirestore.instance.collection('users').get();
 
-  final SearchController searchController = Get.put(SearchController());
+  final SearchController searchController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -107,6 +107,8 @@ class SearchListView extends StatelessWidget {
     return Obx(() {
       if (searchController.searchedResults.isNotEmpty) {
         return ListView.builder(
+          physics: const BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics()),
           itemCount: searchController.searchedResults.length,
           itemBuilder: (context, index) {
             final details = searchController.searchedResults[index];
@@ -128,6 +130,8 @@ class SearchListView extends StatelessWidget {
         );
       }
       return ListView.builder(
+        physics: const BouncingScrollPhysics(
+            parent: AlwaysScrollableScrollPhysics()),
         itemCount: searchController.searchResults.length,
         itemBuilder: (context, index) {
           final details = searchController.searchResults[index];

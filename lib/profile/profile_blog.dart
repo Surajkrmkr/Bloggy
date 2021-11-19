@@ -73,6 +73,8 @@ class ProfileBlogs extends StatelessWidget {
             }
             return Expanded(
               child: ListView.builder(
+                physics: const BouncingScrollPhysics(
+                parent: AlwaysScrollableScrollPhysics()),
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
                 itemCount: data.length,

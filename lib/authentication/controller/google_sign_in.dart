@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:provider/provider.dart';
 
 class GoogleSignInProvider extends ChangeNotifier {
   final googleSignIn = GoogleSignIn();
@@ -24,14 +24,24 @@ class GoogleSignInProvider extends ChangeNotifier {
       );
 
       await FirebaseAuth.instance.signInWithCredential(credential);
+      Get.back();
       notifyListeners();
     } catch (e) {
+      // ignore: avoid_print
       print(e);
     }
   }
 
   Future logout() async {
-    await googleSignIn.disconnect();
-    FirebaseAuth.instance.signOut();
+    try {
+      await googleSignIn.disconnect();
+    } finally {
+      FirebaseAuth.instance.signOut();
+    }
   }
+}
+
+class EmailSignIn extends GetxController {
+  Rx<TextEditingController> email = TextEditingController().obs;
+  Rx<TextEditingController> password = TextEditingController().obs;
 }

@@ -36,50 +36,56 @@ class PostBlogPage extends StatelessWidget {
                   key: formKey,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 20.0),
-                    child: Container(
-                      height: 200,
-                      width: Get.width,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        gradient: LinearGradient(
-                          colors: MyColors.backgroundHeader[Random()
-                              .nextInt(MyColors.backgroundHeader.length)],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
+                    child: GestureDetector(
+                      onTap: () {
+                        blogController.imgFromGallery();
+                      },
+                      child: Container(
+                        height: 200,
+                        width: Get.width,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          gradient: LinearGradient(
+                            colors: MyColors.backgroundHeader[Random()
+                                .nextInt(MyColors.backgroundHeader.length)],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
                         ),
-                      ),
-                      child: Stack(
-                        children: [
-                          // ignore: unrelated_type_equality_checks
-                          blogController.setupImageLink != ''
-                              ? ClipRRect(
-                                  borderRadius: BorderRadius.circular(20),
-                                  child: Image.file(
-                                      File(blogController.setupImageLink.value),
-                                      width: Get.width,
-                                      fit: BoxFit.cover),
-                                )
-                              : Container(),
-                          Align(
-                            alignment: Alignment.bottomLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: IconButton(
-                                onPressed: () {
-                                  blogController.imgFromGallery();
-                                },
-                                icon: Icon(
-                                  // ignore: unrelated_type_equality_checks
-                                  blogController.setupImageLink != ''
-                                      ? Icons.edit
-                                      : Icons.add_a_photo,
-                                  color: Colors.white,
-                                  size: 30,
+                        child: Stack(
+                          children: [
+                            // ignore: unrelated_type_equality_checks
+                            blogController.setupImageLink != ''
+                                ? ClipRRect(
+                                    borderRadius: BorderRadius.circular(20),
+                                    child: Image.file(
+                                        File(blogController
+                                            .setupImageLink.value),
+                                        width: Get.width,
+                                        fit: BoxFit.cover),
+                                  )
+                                : Container(),
+                            Align(
+                              alignment: Alignment.bottomLeft,
+                              child: Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: IconButton(
+                                  onPressed: () {
+                                    blogController.imgFromGallery();
+                                  },
+                                  icon: Icon(
+                                    // ignore: unrelated_type_equality_checks
+                                    blogController.setupImageLink != ''
+                                        ? Icons.edit
+                                        : Icons.add_a_photo,
+                                    color: Colors.white,
+                                    size: 30,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -106,6 +112,7 @@ class PostBlogPage extends StatelessWidget {
                     if (value!.isEmpty) {
                       return 'Oops Missing Data!';
                     }
+                    return null;
                   },
                   maxLines: 3,
                 ),
@@ -133,6 +140,7 @@ class PostBlogPage extends StatelessWidget {
                       if (value!.isEmpty) {
                         return 'Oops Missing Data!';
                       }
+                      return null;
                     },
                     maxLines: 8,
                   ),
@@ -192,7 +200,11 @@ class PostBlogPage extends StatelessWidget {
                   alignment: Alignment.bottomCenter,
                   child: ElevatedButton(
                       onPressed: () {
-                        if (formKey.currentState!.validate()) {
+                        if (formKey.currentState!.validate() &&
+                            blogController.titleController.value.text != '' &&
+                            blogController.descriptionController.value.text !=
+                                '' &&
+                            blogController.setupImageLink.value != '') {
                           try {
                             blogController.uploadPost();
                             authUser.addUsertoBloggy();

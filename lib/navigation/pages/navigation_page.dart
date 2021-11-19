@@ -1,6 +1,7 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:blogy/navigation/controller/navigation_controller.dart';
 import 'package:blogy/blog%20post/pages/post_blog_page.dart';
+import 'package:blogy/search/controller/search_controller.dart';
 import 'package:blogy/themes/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -32,9 +33,17 @@ class Home extends StatelessWidget {
             return SizedBox(
               height: 60,
               child: AnimatedBottomNavigationBar(
-                icons: const [Icons.home, Icons.search, Icons.menu, Icons.home],
+                icons: const [
+                  Icons.home,
+                  Icons.search,
+                  Icons.menu,
+                  Icons.person
+                ],
                 onTap: (index) {
                   navigationController.changeIndex(index);
+                  final SearchController searchController =
+                      Get.find<SearchController>();
+                  searchController.searchResults.clear();
                 },
                 activeColor: MyColors.accentColor,
                 gapLocation: GapLocation.center,

@@ -33,6 +33,8 @@ class HomePageBlog extends StatelessWidget {
           } else if (snapshot.hasData) {
             var data = snapshot.data!.docs;
             return ListView.builder(
+              physics: const BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics()),
               shrinkWrap: true,
               itemCount: data.length,
               itemBuilder: (context, i) {

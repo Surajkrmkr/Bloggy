@@ -1,5 +1,4 @@
 import 'package:blogy/authentication/controller/google_sign_in.dart';
-import 'package:blogy/authentication/pages/sign_in_page.dart';
 import 'package:blogy/themes/colors.dart';
 import 'package:blogy/themes/fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,8 +7,8 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_icons/simple_icons.dart';
 
-class SignUpFormWidget extends StatelessWidget {
-  SignUpFormWidget({
+class SignInFormWidget extends StatelessWidget {
+  SignInFormWidget({
     Key? key,
   }) : super(key: key);
   EmailSignIn emailSignIn = Get.put(EmailSignIn());
@@ -27,7 +26,7 @@ class SignUpFormWidget extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 20.0),
-              child: Text("Get Started",
+              child: Text("Welcome Back",
                   style: MyFont.getTextStyle(
                       30, MyColors.accentColor, FontWeight.bold)),
             ),
@@ -69,7 +68,7 @@ class SignUpFormWidget extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("or Sign up with"),
+                  const Text("or Sign in with"),
                   IconButton(
                     onPressed: () {
                       final provider = Provider.of<GoogleSignInProvider>(
@@ -85,10 +84,17 @@ class SignUpFormWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  "Sign Up",
-                  style: MyFont.getTextStyle(
-                      20, MyColors.accentColor, FontWeight.bold),
+                GestureDetector(
+                  onTap: () async {
+                    FirebaseAuth auth = FirebaseAuth.instance;
+                    await auth.sendPasswordResetEmail(
+                        email: emailSignIn.email.value.text);
+                  },
+                  child: Text(
+                    "Forgot Password",
+                    style: MyFont.getTextStyle(
+                        17, MyColors.accentColor, FontWeight.bold),
+                  ),
                 ),
                 CircleAvatar(
                   radius: 30,
@@ -100,9 +106,11 @@ class SignUpFormWidget extends StatelessWidget {
                       if (formKey.currentState!.validate()) {
                         try {
                           FirebaseAuth auth = FirebaseAuth.instance;
-                          await auth.createUserWithEmailAndPassword(
+                          await auth.signInWithEmailAndPassword(
                               email: emailSignIn.email.value.text,
                               password: emailSignIn.password.value.text);
+                          // Restart.restartApp();
+                          Get.back();
                         } on Exception catch (e) {
                           Get.snackbar("Error", e.toString(),
                               snackPosition: SnackPosition.BOTTOM);
@@ -120,7 +128,7 @@ class SignUpFormWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    "Already signed up ?",
+                    "Didn't signed up ?",
                     style:
                         MyFont.getTextStyle(16, Colors.grey, FontWeight.normal),
                   ),
@@ -129,10 +137,10 @@ class SignUpFormWidget extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Get.to(() => const SignInPage());
+                      Get.back();
                     },
                     child: Text(
-                      "Sign in",
+                      "Sign up",
                       style: MyFont.getTextStyle(
                           18, MyColors.accentColor, FontWeight.bold),
                     ),

@@ -35,6 +35,8 @@ class FullBlogView extends StatelessWidget {
             width: Get.width,
           ),
           SingleChildScrollView(
+            physics: const BouncingScrollPhysics(
+                parent: AlwaysScrollableScrollPhysics()),
             child: Padding(
               padding: EdgeInsets.only(
                   top: Get.height * 0.5, left: 20, right: 20, bottom: 60),
@@ -60,6 +62,14 @@ class FullBlogView extends StatelessWidget {
                   ),
                 ],
               ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(30.0),
+            child: IconButton(
+              onPressed: () => Get.back(),
+              icon: const Icon(Icons.arrow_back_ios),
+              color: Colors.white,
             ),
           ),
           Positioned(

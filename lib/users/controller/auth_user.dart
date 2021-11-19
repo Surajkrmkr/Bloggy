@@ -4,6 +4,12 @@ import 'package:get/get.dart';
 
 class AuthUser extends GetxController {
   Rx<User?> user = FirebaseAuth.instance.currentUser.obs;
+  @override
+  onInit() {
+   user.value!.displayName??user.value!.updateDisplayName(user.value!.email);
+    user.value!.photoURL??user.value!.updatePhotoURL("https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Download-Image.png"); 
+    super.onInit();
+  }
 
   addUsertoBloggy() async {
     FirebaseFirestore.instance

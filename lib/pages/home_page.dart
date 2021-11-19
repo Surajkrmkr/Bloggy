@@ -1,4 +1,5 @@
 import 'package:blogy/profile/profile_page.dart';
+import 'package:blogy/search/controller/search_controller.dart';
 import 'package:blogy/users/controller/auth_user.dart';
 import 'package:blogy/themes/colors.dart';
 import 'package:blogy/themes/fonts.dart';
@@ -13,6 +14,7 @@ class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
 
   final AuthUser authUser = Get.put(AuthUser());
+  final SearchController searchController = Get.put(SearchController());
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,7 @@ class HomePage extends StatelessWidget {
         actions: [
           GestureDetector(
             onTap: () {
-              Get.to(() => ProfilePage(isUserItself: false,));
+              Get.to(() => ProfilePage(isUserItself: false));
             },
             child: Padding(
               padding: const EdgeInsets.only(top: 10.0, right: 20.0),

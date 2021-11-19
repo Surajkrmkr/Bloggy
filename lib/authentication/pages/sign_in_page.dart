@@ -1,9 +1,9 @@
-import 'package:blogy/authentication/widgets/sign_up_form.dart';
+import 'package:blogy/authentication/widgets/sign_in_form.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SignUpPage extends StatelessWidget {
-  const SignUpPage({Key? key}) : super(key: key);
+class SignInPage extends StatelessWidget {
+  const SignInPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class SignUpPage extends StatelessWidget {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(30.0),
-                  child: SignUpFormWidget(),
+                  child: SignInFormWidget(),
                 ),
               ),
             )
@@ -44,4 +44,3 @@ class SignUpPage extends StatelessWidget {
     );
   }
 }
-

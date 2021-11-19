@@ -57,7 +57,8 @@ class ProfilePage extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 40.0),
                       child: Text(
                         !isUserItself
-                            ? authUser.user.value!.displayName!
+                            ? authUser.user.value!.displayName ??
+                                authUser.user.value!.email!
                             : otherUser!.name!,
                         style: MyFont.getTextStyle(
                             25, MyColors.accentColor, FontWeight.bold),
@@ -80,7 +81,12 @@ class ProfilePage extends StatelessWidget {
                             20, MyColors.accentColor, FontWeight.normal),
                       ),
                     ),
-                    !isUserItself ? ProfileBlogs(name: authUser.user.value!.displayName!,):ProfileBlogs(name: otherUser!.name!),
+                    !isUserItself
+                        ? ProfileBlogs(
+                            name: authUser.user.value!.displayName ??
+                                authUser.user.value!.email,
+                          )
+                        : ProfileBlogs(name: otherUser!.name!),
                     !isUserItself
                         ? ElevatedButton(
                             onPressed: () async {
@@ -109,8 +115,9 @@ class ProfilePage extends StatelessWidget {
                   ? CircleAvatar(
                       radius: 70,
                       backgroundColor: Colors.white,
-                      backgroundImage:
-                          NetworkImage(authUser.user.value!.photoURL!),
+                      backgroundImage: NetworkImage(authUser
+                              .user.value!.photoURL ??
+                          'https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Download-Image.png'),
                     )
                   : CircleAvatar(
                       radius: 70,
